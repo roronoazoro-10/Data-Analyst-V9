@@ -31,7 +31,7 @@ window.addEventListener('load', () => {
             id: "horiz-scroll",
             trigger: "#portfolio-pin",
             pin: true,
-            scrub: 1,    // this line controls scroll speed
+            scrub: 0.8,    // this line controls scroll speed
             start: "top 15%",
             end: () => `+=${track.scrollWidth}`, // Make the end dynamic based on content width
             invalidateOnRefresh: true,
