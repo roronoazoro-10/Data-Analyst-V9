@@ -83,7 +83,7 @@ window.addEventListener('load', () => {
                 rotateZ: -1,  
                 scale: 0.94, 
                 opacity: 0,
-                transformPerspective: 1000 
+                transformPerspective: 800 
             },
             {
                 y: 0, 
