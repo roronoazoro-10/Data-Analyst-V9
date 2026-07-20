@@ -1,0 +1,969 @@
+/* ==========================================
+   1. GLOBAL ARCHITECTURE & FONTS
+   ========================================== */
+* {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+}
+
+@font-face {
+    font-family: 'Balgin Regular';
+    src: local('Balgin Regular'), url('Balgin-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #F8FAFC;
+    background-color: #0F172A; 
+    overflow-x: hidden;
+}
+
+.tag, .tech-used, .project-link, .marquee-item, button, .status-indicator, .hero-sub, .action-box {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+h1, h2, h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+}
+
+/* Hardware Dot Matrix Background */
+.dot-grid {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: radial-gradient(rgba(248, 250, 252, 0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ==========================================
+   2. SCREEN VIEWPORTS
+   ========================================== */
+.screen {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+}
+
+.status-indicator {
+    font-size: 12px;
+    color: #06B6D4;
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    letter-spacing: 2px;
+}
+.dot {
+    width: 8px; height: 8px;
+    background-color: #06B6D4;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+.blink { animation: blink-anim 1.5s infinite; }
+@keyframes blink-anim { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* ==========================================
+   3. UNIVERSAL CARD STYLES
+   ========================================== */
+.hero-card, .project-card, .profile-card, .social-card {
+    background-color: #1E293B; 
+    border-radius: 8px;
+    border: 1px solid #334155;
+    text-align: left;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.hero-card:hover, .project-card:hover, .profile-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(6, 182, 212, 0.5); 
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 25px rgba(6, 182, 212, 0.15); 
+}
+
+.hero-card {
+    padding: 50px 40px;
+    max-width: 720px;
+}
+
+.hero-card h1 {
+    color: #F8FAFC;
+    font-size: 58px;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    margin: 0 0 12px 0;
+}
+
+.hero-sub {
+    color: #06B6D4 !important;
+    font-size: 12px !important;
+    letter-spacing: 1px;
+    margin-bottom: 25px !important;
+}
+
+.hero-card p {
+    color: #94A3B8;
+    font-size: 16px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ==========================================
+   4. MARQUEE
+   ========================================== */
+.marquee-container {
+    background-color: #3B82F6;
+    color: #F8FAFC;
+    padding: 14px 0;
+    overflow: hidden;
+    display: flex;
+    width: 100%;
+}
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: scrollLeft 25s linear infinite;
+}
+.marquee-content { display: flex; flex-shrink: 0; }
+.marquee-item {
+    display: flex;
+    align-items: center;
+    padding: 0 35px;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+.marquee-img {
+    width: 20px; height: 20px; margin-right: 12px;
+    object-fit: contain; vertical-align: middle;
+}
+@keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* ==========================================
+   5. SHOWCASE CARDS 
+   ========================================== */
+.layered-container { width: 100%; max-width: 750px; display: flex; justify-content: center; }
+.project-card, .profile-card { padding: 45px; max-width: 550px; flex: 1; }
+.profile-card { border-top: 4px solid #3B82F6; }
+.tag { display: inline-block; color: #06B6D4; font-size: 12px; letter-spacing: 1.5px; margin-bottom: 20px; }
+.project-card h2, .profile-card h3 { font-size: 26px; color: #F8FAFC; margin: 0 0 20px 0; letter-spacing: -0.5px; }
+.profile-card h3 { color: #3B82F6; }
+.project-card p, .profile-card p { font-size: 15px; line-height: 1.7; color: #94A3B8; margin: 0; }
+.tech-used { margin-top: 25px !important; color: #06B6D4 !important; font-size: 13px !important; letter-spacing: 1px; }
+
+/* Enhanced Project Link Glow */
+.project-link { 
+    display: inline-block; 
+    margin-top: 25px; 
+    color: #F8FAFC; 
+    font-size: 12px; 
+    text-decoration: none; 
+    border-bottom: 1px solid #F8FAFC; 
+    padding-bottom: 2px; 
+    transition: all 0.3s ease; 
+}
+.project-link:hover { 
+    color: #06B6D4; 
+    border-color: #06B6D4; 
+    text-shadow: 0 0 5px rgba(6, 182, 212, 0.8), 0 0 12px rgba(6, 182, 212, 0.4);
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2);
+}
+
+/* ==========================================
+   6. HORIZONTAL PIN MATRIX
+   ========================================== */
+.pin-window { 
+    width: 100%; 
+    height: 75vh; 
+    overflow: hidden; 
+    position: relative;
+}
+
+.horizontal-track { 
+    display: flex; 
+    width: max-content; 
+    height: 75vh; 
+    padding: 0; 
+}
+
+.panel { 
+    width: 100vw; 
+    flex-shrink: 0; 
+    height: 75vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    box-sizing: border-box; 
+    padding: 20px; 
+    border-right: 1px dashed #334155; 
+}
+
+/* ==========================================
+   7. CERTIFICATES GRID 
+   ========================================== */
+.section-certs {
+    min-height: auto;
+    padding: 60px 20px 100px;
+    align-items: flex-start;
+}
+.cert-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    width: 100%;
+    max-width: 1000px;
+}
+.cert-grid .project-card {
+    min-width: 300px; 
+    box-sizing: border-box;
+}
+
+/* ==========================================
+   8. CONTACT SECTION
+   ========================================== */
+.contact-wrapper {
+    width: 100%;
+    max-width: 700px;
+    padding: 40px 20px;
+    text-align: left;
+}
+
+.contact-title {
+    color: #94A3B8;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+}
+
+.social-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.span-2 {
+    grid-column: span 2;
+}
+
+.social-card {
+    background-color: #1E293B;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    border: 1px solid transparent;
+}
+
+.social-card:hover {
+    background-color: #273549; 
+    border-color: #06B6D4;
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
+}
+
+.social-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.social-icon {
+    color: #F8FAFC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-icon-img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    transition: all 0.3s ease;
+}
+
+.social-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.social-name {
+    color: #F8FAFC;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.social-handle {
+    color: #94A3B8;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+.social-arrow {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #F8FAFC;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.social-card:hover .social-arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: #06B6D4;
+    filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.8));
+}
+
+.social-card:hover .social-name,
+.social-card:hover .social-handle {
+    color: #06B6D4;
+    text-shadow: 0 0 10px rgba(6, 182, 212, 0.8), 0 0 20px rgba(6, 182, 212, 0.5);
+}
+
+.social-card:hover .social-icon {
+    color: #06B6D4;
+    filter: drop-shadow(0 0 12px rgba(6, 182, 212, 0.9));
+}
+
+.social-card:hover .social-icon-img {
+    filter: brightness(0) invert(1) drop-shadow(0 0 12px rgba(6, 182, 212, 0.9));
+}
+
+/* ==========================================
+   9. HERO ACTION BUTTONS 
+   ========================================== */
+.hero-action-buttons {
+    display: flex;
+    gap: 12px; 
+    margin-top: 40px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.hero-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; 
+    padding: 12px 20px; 
+    font-family: 'Balgin Regular', 'Plus Jakarta Sans', sans-serif;
+    font-weight: bold;
+    font-size: 13px; 
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    text-decoration: none;
+    border-radius: 50px; 
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background-color: #1E293B; 
+    border: 2px solid #334155; 
+    color: #F8FAFC; 
+    position: relative;
+}
+
+.btn-icon-svg { transition: all 0.3s ease; }
+.btn-text { transition: all 0.3s ease; }
+
+.hero-btn:hover {
+    background-color: #273549; 
+    border-color: #06B6D4;
+    transform: translateY(-4px);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+}
+
+.hero-btn:hover .btn-text {
+    color: #06B6D4;
+    text-shadow: 0 0 10px rgba(6, 182, 212, 0.8), 0 0 20px rgba(6, 182, 212, 0.5);
+}
+
+.hero-btn:hover .btn-icon-svg {
+    color: #06B6D4;
+    filter: drop-shadow(0 0 12px rgba(6, 182, 212, 0.9));
+}
+
+/* Vibrant Animated Glowing Button */
+.btn-glass {
+    background: linear-gradient(45deg, #06B6D4, #3B82F6, #8B5CF6);
+    background-size: 200% 200%;
+    border: none;
+    color: #F8FAFC !important;
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4), 0 0 20px rgba(59, 130, 246, 0.3);
+    animation: gradientShift 5s ease infinite;
+    z-index: 1;
+    overflow: hidden;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.btn-glass::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(45deg, #8B5CF6, #3B82F6, #06B6D4);
+    background-size: 200% 200%;
+    z-index: -1;
+    transition: opacity 0.4s ease;
+    opacity: 0;
+}
+
+.btn-glass:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 8px 25px rgba(6, 182, 212, 0.6), 0 0 35px rgba(139, 92, 246, 0.5);
+    border: none;
+}
+
+.btn-glass:hover::before {
+    opacity: 1;
+    animation: gradientShift 3s ease infinite;
+}
+
+.btn-glass .btn-text, .btn-glass .btn-icon-svg {
+    color: #F8FAFC !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+    filter: none !important;
+}
+
+/* Translucent View Projects Button */
+.btn-translucent {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    color: #F8FAFC;
+}
+
+.btn-translucent:hover {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: #06B6D4;
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+}
+
+/* ==========================================
+   10. SHOWCASE TOGGLE
+   ========================================== */
+.section-showcase {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 20px 40px;
+    min-height: auto;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+.showcase-content {
+    border-radius: 20px;
+    padding: 30px;
+    transition: all 0.3s ease;
+}
+
+.showcase-content h1 {
+    font-size: 48px;
+    margin: 0 0 10px 0;
+    color: #F8FAFC;
+    letter-spacing: -1px;
+}
+
+.showcase-content p {
+    color: #94A3B8;
+    font-size: 16px;
+    margin: 0 0 40px 0;
+}
+
+.toggle-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.toggle-container {
+    position: relative;
+    display: flex;
+    background-color: rgba(30, 41, 59, 0.5);
+    border: 1px solid #334155;
+    border-radius: 50px;
+    width: 100%;
+    max-width: 420px;
+    padding: 6px;
+}
+
+.toggle-slider {
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    left: 6px;
+    width: calc(50% - 6px);
+    background-color: #334155;
+    border-radius: 50px;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 1;
+}
+
+.toggle-btn {
+    position: relative;
+    flex: 1;
+    z-index: 2;
+    background: transparent;
+    border: none;
+    color: #94A3B8;
+    font-size: 15px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+    padding: 12px 0;
+    cursor: pointer;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.toggle-btn:hover, .toggle-btn.active {
+    color: #06B6D4;
+    text-shadow: 0 0 10px rgba(6, 182, 212, 0.8), 0 0 20px rgba(6, 182, 212, 0.5);
+}
+
+/* ==========================================
+   11. CREATIVE GLOW EFFECT
+   ========================================== */
+.creative-hover {
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.creative-hover:hover {
+    color: #06B6D4;
+    text-shadow: 
+        0 0 5px rgba(6, 182, 212, 0.8), 
+        0 0 10px rgba(6, 182, 212, 0.5), 
+        0 0 15px rgba(6, 182, 212, 0.3);
+}
+
+/* Target Navigation Glow */
+.target-glow {
+    animation: highlightGlow 2s ease-out forwards;
+}
+
+@keyframes highlightGlow {
+    0% { box-shadow: 0 0 0 rgba(6, 182, 212, 0); background-color: transparent; }
+    15% { box-shadow: 0 0 50px rgba(6, 182, 212, 0.3), inset 0 0 20px rgba(6, 182, 212, 0.2); background-color: rgba(6, 182, 212, 0.05); }
+    100% { box-shadow: 0 0 0 rgba(6, 182, 212, 0); background-color: transparent; }
+}
+
+/* Wave Glow Animation for Titles */
+@keyframes titleWaveGlow {
+    0% {
+        text-shadow: 0 0 0 transparent;
+        color: inherit;
+        transform: scale(1);
+    }
+    20% {
+        text-shadow: 0 0 15px #f43f5e, 0 0 30px #8b5cf6, 0 0 45px #06b6d4;
+        color: #fff;
+        transform: scale(1.05);
+    }
+    100% {
+        text-shadow: 0 0 0 transparent;
+        color: inherit;
+        transform: scale(1);
+    }
+}
+
+.wave-glow-active {
+    animation: titleWaveGlow 1.2s ease-in-out forwards;
+    display: inline-block; 
+}
+
+/* NEW: MILD & SLOW Tile Wave Glow Animation */
+@keyframes tileWaveGlow {
+    0% {
+        box-shadow: 0 0 0 transparent;
+        border-color: transparent;
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(6, 182, 212, 0.3), 0 0 10px rgba(6, 182, 212, 0.1);
+        border-color: rgba(6, 182, 212, 0.6);
+        transform: translateY(-2px) scale(1.02);
+        background-color: #273549;
+    }
+    100% {
+        box-shadow: 0 0 0 transparent;
+        border-color: transparent;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.tile-wave-active {
+    animation: tileWaveGlow 2s ease-in-out forwards !important;
+    z-index: 10;
+}
+
+/* ==========================================
+   12. MOBILE & TOUCH RESPONSIVENESS
+   ========================================== */
+@media (max-width: 768px) {
+    .screen { padding: 15px; }
+    .hero-card { padding: 30px 20px; }
+    .hero-card h1 { font-size: 32px; }
+    
+    .hero-action-buttons { flex-direction: column; gap: 10px; } 
+    .hero-btn { width: 100%; box-sizing: border-box; }
+
+    .marquee-item { font-size: 12px; padding: 0 20px; }
+    
+    .project-card, .profile-card { 
+        padding: 25px; 
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .project-card h2, .profile-card h3 { font-size: 20px; }
+    
+    .social-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .span-2 { grid-column: span 4; } 
+
+    .social-card:not(.span-2) {
+        justify-content: center;
+        padding: 15px;
+        aspect-ratio: 1 / 1;
+    }
+    .social-card:not(.span-2) .social-left {
+        justify-content: center;
+        width: 100%;
+    }
+    .social-card:not(.span-2) .social-info,
+    .social-card:not(.span-2) .social-arrow {
+        display: none;
+    }
+
+    .showcase-content h1 { font-size: 36px; }
+    .toggle-container { max-width: 320px; }
+
+    /* Fix for Certificates Grid to stop squashing */
+    .cert-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+    .cert-grid .project-card {
+        max-width: 100%;
+        width: 100%;
+    }
+}
+
+@media (pointer: coarse) {
+    .pin-window {
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory; 
+        scrollbar-width: none; 
+        -ms-overflow-style: none;
+    }
+    
+    .pin-window::-webkit-scrollbar {
+        display: none; 
+    }
+
+    .panel {
+        scroll-snap-align: center; 
+    }
+}
+
+/* ==========================================
+   13. EDUCATION TIMELINE MATRIX & WRAPPER
+   ========================================== */
+.academic-wrapper {
+    display: flex;
+    flex-direction: row; 
+    justify-content: center;
+    align-items: center; 
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto; 
+    flex-wrap: wrap; 
+}
+
+#academic-card {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 320px; 
+    max-width: 480px; 
+    box-sizing: border-box;
+}
+
+#opportunities-card {
+    display: flex;
+    flex-direction: column;
+    flex: 1.4;
+    min-width: 320px; 
+    max-width: 680px;
+    box-sizing: border-box;
+}
+
+/* Mobile responsive fallback for the wrapper */
+@media (max-width: 768px) {
+    .academic-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+    #academic-card, #opportunities-card {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+.edu-timeline {
+    margin-top: 35px;
+    position: relative;
+    padding-left: 20px;
+    border-left: 1px dashed #334155;
+}
+
+.edu-timeline-item {
+    position: relative;
+    margin-bottom: 35px;
+    padding-left: 20px;
+    transition: transform 0.3s ease;
+}
+
+.edu-timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.edu-timeline-item:hover {
+    transform: translateX(8px);
+}
+
+.edu-dot {
+    position: absolute;
+    left: -25px; 
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background-color: #06B6D4;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.6);
+    transition: all 0.3s ease;
+}
+
+.edu-timeline-item:hover .edu-dot {
+    box-shadow: 0 0 15px rgba(6, 182, 212, 1), 0 0 25px rgba(248, 250, 252, 0.4);
+    background-color: #F8FAFC;
+}
+
+.edu-dot.active-dot {
+    background-color: #10B981;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+}
+
+.edu-timeline-item:hover .edu-dot.active-dot {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 1), 0 0 25px rgba(248, 250, 252, 0.4);
+    background-color: #F8FAFC;
+}
+
+.edu-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #94A3B8;
+    margin-bottom: 8px;
+    letter-spacing: 1.5px;
+}
+
+.edu-degree {
+    font-size: 18px !important;
+    color: #F8FAFC !important;
+    margin: 0 0 6px 0 !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.edu-timeline-item:hover .edu-degree {
+    color: #06B6D4 !important;
+    text-shadow: 0 0 8px rgba(6, 182, 212, 0.4);
+}
+
+.edu-uni {
+    font-size: 14px !important;
+    color: #94A3B8 !important;
+    margin: 0 0 12px 0 !important;
+}
+
+.edu-status {
+    display: inline-block;
+    color: #06B6D4;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    background: rgba(6, 182, 212, 0.1);
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+.edu-status.active-status {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #10B981;
+}
+
+/* ==========================================
+   14. TYPING ANIMATION
+   ========================================== */
+#typing-text {
+    display: inline-block;
+    border-right: 3px solid #06B6D4;
+    padding-right: 4px;
+    margin: 0 0 10px 0; 
+    animation: blink-cursor 0.75s step-end infinite;
+}
+
+@keyframes blink-cursor {
+    from, to { border-color: transparent; }
+    50% { border-color: #06B6D4; }
+}
+
+/* ==========================================
+   15. SAFE TOGGLE CLASSES (GSAP FRIENDLY)
+   ========================================== */
+.view-section {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    height: auto;
+}
+
+.hidden-view {
+    height: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
+/* ==========================================
+   16. OPPORTUNITIES STATUS GRID
+   ========================================== */
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+    gap: 20px;
+    margin-top: 35px;
+}
+
+.status-box {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 32px;
+    min-height: 160px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.status-box::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background-color: #334155;
+    transition: background-color 0.3s ease;
+}
+
+.status-box:hover {
+    border-color: rgba(6, 182, 212, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.status-box:hover::before {
+    background-color: #06B6D4;
+    box-shadow: 0 0 10px #06B6D4;
+}
+
+.status-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #06B6D4;
+    margin-bottom: 12px;
+    letter-spacing: 1.5px;
+}
+
+.status-value {
+    font-size: 24px;
+    color: #F8FAFC;
+    font-weight: 700;
+    margin-bottom: 12px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.status-desc {
+    font-size: 15px;
+    color: #94A3B8;
+    margin-bottom: 20px;
+    flex-grow: 1; 
+}
+
+.status-badge {
+    display: inline-table;
+    color: #F8FAFC;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    background: rgba(6, 182, 212, 0.15);
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    text-align: center;
+}
+
+.status-badge.active-badge {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #10B981;
+}
+
+.status-action {
+    margin-top: auto; 
+    padding-top: 25px;
+    display: flex;
+    justify-content: center;
+}
+
+.status-action .hero-btn {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px;
+}
